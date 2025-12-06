@@ -12,6 +12,10 @@
             color: #333;
         }
 
+        body.modal-open {
+            overflow: hidden;
+        }
+
         .header {
             background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
             color: #fff;
@@ -168,7 +172,7 @@
             inset: 0;
             background: rgba(0,0,0,0.7);
             z-index: 1000;
-            overflow-y: auto;
+            overflow: hidden;
             padding: 20px;
         }
 
@@ -183,8 +187,11 @@
             border-radius: 20px;
             width: 100%;
             max-width: 500px;
-            margin-top: 50px;
+            margin-top: 40px;
+            max-height: calc(100vh - 80px);
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
             animation: slideUp 0.3s;
         }
 
@@ -226,8 +233,16 @@
 
         .modal-body {
             padding: 25px;
-            max-height: 500px;
+            flex: 1 1 auto;
             overflow-y: auto;
+            min-height: 0;
+        }
+
+        .modal-footer {
+            padding: 15px 25px 25px;
+            border-top: 1px solid #eee;
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), #fff);
+            flex-shrink: 0;
         }
 
         .modal-title {
@@ -1019,6 +1034,27 @@
                 flex-direction: column;
             }
         }
+
+        @media (max-width: 600px) {
+            .modal {
+                padding: 10px;
+                align-items: flex-start;
+            }
+
+            .modal-content {
+                margin-top: 10px;
+                max-height: calc(100vh - 20px);
+                border-radius: 16px;
+            }
+
+            .modal-header {
+                height: 200px;
+            }
+
+            .modal-footer {
+                padding: 12px 20px 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1096,7 +1132,8 @@
                     <button class="qty-btn" onclick="increaseQty()">+</button>
                 </div>
             </div>
-
+        </div>
+        <div class="modal-footer">
             <button class="add-to-cart-btn" onclick="addToCart()">Thêm vào giỏ hàng</button>
         </div>
     </div>
@@ -1551,6 +1588,7 @@
         
         document.getElementById('qtyDisplay').innerText = quantity;
         document.getElementById('productModal').classList.add('show');
+        document.body.classList.add('modal-open');
     }
 
     function renderSizeOptions() {
@@ -1668,6 +1706,7 @@
 
     function closeModal() {
         document.getElementById('productModal').classList.remove('show');
+        document.body.classList.remove('modal-open');
     }
 
     function toggleCart() {
